@@ -1,4 +1,5 @@
 import { crawlPage } from "./crawl";
+import { printReport } from "./report";
 
 async function main() {
 	if (Bun.argv.length !== 3) {
@@ -14,7 +15,8 @@ async function main() {
 	console.log(`Taking as baseURL the following '${baseURL}'`);
 
 	const pages = await crawlPage(baseURL);
-	console.log(pages);
+
+	printReport(pages)
 }
 
 main()
