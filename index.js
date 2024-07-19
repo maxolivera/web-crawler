@@ -1,7 +1,7 @@
+import { crawlPage } from "./crawl";
 
-
-function main() {
-	if (Bun.argv.length !== 3){
+async function main() {
+	if (Bun.argv.length !== 3) {
 		console.log("Invalid amount of CLI arguments")
 		return
 	}
@@ -11,7 +11,10 @@ function main() {
 	} catch (err) {
 		console.log(`${err.message}: ${Bun.argv[2]}`);
 	}
-	console.log(`Taking as baseURL the following '${baseURL}'`)
+	console.log(`Taking as baseURL the following '${baseURL}'`);
+
+	const pages = await crawlPage(baseURL);
+	console.log(pages);
 }
 
 main()

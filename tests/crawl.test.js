@@ -1,5 +1,5 @@
 import { expect, test, describe } from "bun:test";
-import { normalizeURL, getURLFromHTML } from "../crawl.js";
+import { normalizeURL, getURLFromHTML, crawlPage } from "../crawl.js";
 
 describe("Normalize URL", () => {
 	test("Base URL", () => {
@@ -51,4 +51,15 @@ describe("URLs from HTML", () => {
 		expect(URLs[1].pathname).toBe("/tracks/backend")
 	});
 
+});
+
+describe("Crawl page", () => {
+	test("Base case", async () => {
+		const url = "https://http.cat/status/200";
+		const html = await crawlPage(url);
+		const URLs = getURLFromHTML(html, "https://http.cat")
+		const mustHave = URL("https://http.cat/")
+
+		expect(URLs).toContainEqual(mustHave);
+	});
 });
