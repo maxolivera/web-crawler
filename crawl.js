@@ -1,5 +1,4 @@
 import { JSDOM } from "jsdom";
-export { normalizeURL, getURLFromHTML };
 
 function normalizeURL(fullURL) {
 	const newURL = URL(fullURL);
@@ -23,25 +22,18 @@ function getURLFromHTML(htmlBody, baseURL) {
 
 	for (const anchor of anchors) {
 		if (anchor.hasAttribute("href")) {
-			let currentURL = null
+			const href = anchor.getAttribute("href");
 			try {
 				// if href is a full URL
-				currentURL = URL(anchor.href);
+				const currentURL = URL(href, baseURL);
+				URLs.push(currentURL)
 			} catch (err) {
-				if (err instanceof TypeError) {
-					// if href is a relative URL
-					currentURL = URL(`${baseURL}${anchor.href}`)
-				}
-				else {
-					throw new Error(err)
-				}
+				console.log(`${err.message}: ${currentURL}`)
 			}
-			if (currentURL === null) {
-				throw new Error("The currentURL is null")
-			}
-			URLs.push(currentURL)
 		}
 	}
 
 	return URLs;
 }
+
+export { normalizeURL, getURLFromHTML };
